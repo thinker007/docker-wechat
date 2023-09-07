@@ -8,6 +8,7 @@ set -eo pipefail
 #     -> 3.3.0.115
 #
 WECHAT_DIR='/home/user/.wine/drive_c/Program Files/Tencent/WeChat'
+mkdir '/home/user/.win64/drive_c/Program Files/'
 cp -r -p '/home/user/.wine/drive_c/Program Files/Tencent'  '/home/user/.wine64/drive_c/Program Files/'
 peres -v "$WECHAT_DIR"/WeChatWin.dll | grep 'Product Version: ' | awk '{print $3}' > /home/VERSION.WeChat
 echo 'WeChat VERSION generated:'
