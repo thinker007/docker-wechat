@@ -1,4 +1,4 @@
-FROM zixia/wine:6.0
+FROM thinker007/docker-wine:latest
 
 USER root
 RUN apt update && apt install -y \
