@@ -10,7 +10,17 @@ RUN apt update && apt install -y \
     vim \
   && apt-get autoremove -y \
   && apt-get clean \
-  && rm -fr /tmp/*
+  && rm -fr /tmp/* \
+  && apt --no-install-recommends install wget winbind samba  -y \
+  && wget --no-check-certificate -O /bin/dumb-init "https://github.com/Yelp/dumb-init/releases/download/v1.2.5/dumb-init_1.2.5_x86_64"
+
+
+COPY wine/simsun.ttc  /home/user/.wine/drive_c/windows/Fonts/simsun.ttc
+COPY wine/微信.lnk /home/user/.wine/drive_c/users/Public/Desktop/微信.lnk
+COPY wine/system.reg  /home/user/.wine/system.reg
+COPY wine/user.reg  /home/user/.wine/user.reg
+COPY wine/userdef.reg /home/user/.wine/userdef.reg
+
 
 ENV \
   LANG=zh_CN.UTF-8 \
@@ -27,7 +37,9 @@ RUN chown user /home \
 
 USER user
 RUN bash -x /setup.sh
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/dumb-init", "--" ]
+CMD ["/usr/bin/entrypoint"]
+CMD [ "/entrypoint.sh" ]
 
 #
 # Huan(202004): VOLUME should be put to the END of the Dockerfile
